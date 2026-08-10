@@ -85,8 +85,8 @@ export const Navbar = ({ onOpenCommandPalette }) => {
                                     key={link.id}
                                     href={`#${link.id}`}
                                     className={`transition-colors duration-150 ${isActive
-                                            ? "text-blue-600 dark:text-blue-400 font-bold border-b-2 border-blue-500 pb-0.5"
-                                            : "text-slate-500 dark:text-slate-400 hover:text-blue-500"
+                                        ? "text-blue-600 dark:text-blue-400 font-bold border-b-2 border-blue-500 pb-0.5"
+                                        : "text-slate-500 dark:text-slate-400 hover:text-blue-500"
                                         }`}
                                 >
                                     {link.label}
