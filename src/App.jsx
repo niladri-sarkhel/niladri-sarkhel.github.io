@@ -9,6 +9,7 @@ import { Skills } from "./components/Skills";
 import { Education } from "./components/Education";
 import { CommandPalette } from "./components/CommandPalette";
 import { Footer } from "./components/Footer";
+import { AuroraBackground } from "./components/AuroraBackground";
 
 function MainLayout() {
     const [paletteOpen, setPaletteOpen] = useState(false);
@@ -16,13 +17,16 @@ function MainLayout() {
 
     return (
         <div
-            className={`min-h-screen ${darkMode ? "bg-slate-950 bg-grid-pattern-dark text-slate-200" : "bg-slate-100 bg-grid-pattern-light text-slate-800"
+            className={`relative min-h-screen ${darkMode ? "bg-slate-950 text-slate-200" : "bg-slate-100 text-slate-800"
                 } font-sans transition-colors duration-200`}
         >
-            {/* Centered Paper Container */}
-            <div className="max-w-6xl mx-auto min-h-screen bg-white dark:bg-slate-900 border-x border-slate-300 dark:border-blue-900/40 shadow-2xl flex flex-col transition-colors duration-200">
-                <Navbar onOpenCommandPalette={() => setPaletteOpen(true)} />
+            <AuroraBackground />
 
+            {/* Fixed Full-Width Navbar */}
+            <Navbar onOpenCommandPalette={() => setPaletteOpen(true)} />
+
+            {/* Centered Paper Container (Added pt-16 to offset fixed navbar height) */}
+            <div className="relative z-10 max-w-6xl mx-auto min-h-screen pt-16 bg-white/95 dark:bg-slate-900/90 border-x border-slate-300 dark:border-blue-900/40 shadow-2xl backdrop-blur-xs flex flex-col transition-colors duration-200">
                 <main className="flex-1">
                     <Hero data={portfolioData.profile} />
                     <Projects projects={portfolioData.projects} />
