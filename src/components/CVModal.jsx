@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
-import { X, Download, ExternalLink, FileText } from "lucide-react";
+import { createPortal } from "react-dom";
+import { Close, Download, OpenInNew, Description } from "@mui/icons-material";
 
 export const CVModal = ({
     isOpen,
     onClose,
     pdfUrl = "/resume.pdf",
-    fileName = "Akash_Ghosh_CV.pdf",
+    fileName = "Niladri_Sarkhel_CV.pdf",
 }) => {
-    // Lock background scroll when modal is active & handle Escape key press
+    // Lock background scroll and attach Escape listener
     useEffect(() => {
         if (!isOpen) return;
 
@@ -26,19 +27,19 @@ export const CVModal = ({
 
     if (!isOpen) return null;
 
-    return (
+    return createPortal(
         <div
             className="fixed inset-0 z-50 flex flex-col bg-slate-950/90 backdrop-blur-md animate-fadeIn"
             onClick={onClose}
         >
-            {/* 1. Header Toolbar (WhatsApp style) */}
+            {/* Top Toolbar */}
             <div
-                className="flex items-center justify-between px-4 py-3 bg-slate-900/90 border-b border-slate-800 text-slate-100 select-none"
+                className="flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800 text-slate-100 select-none shrink-0"
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
-                        <FileText className="w-5 h-5" />
+                    <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                        <Description className="!text-xl" />
                     </div>
                     <div>
                         <h3 className="text-sm font-semibold tracking-wide text-slate-200">
@@ -48,54 +49,51 @@ export const CVModal = ({
                     </div>
                 </div>
 
-                {/* Control Actions */}
                 <div className="flex items-center gap-2">
-                    {/* Download Action */}
                     <a
                         href={pdfUrl}
                         download={fileName}
-                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-200 bg-slate-800 hover:bg-emerald-600 hover:text-white rounded-lg transition-colors duration-200 shadow-sm"
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-200 bg-slate-800 hover:bg-emerald-600 hover:text-white rounded-lg transition-colors shadow-sm"
                         title="Download PDF"
                     >
-                        <Download className="w-4 h-4" />
+                        <Download className="!text-base" />
                         <span className="hidden sm:inline">Download</span>
                     </a>
 
-                    {/* Open in New Tab Action */}
                     <a
                         href={pdfUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-lg transition-colors duration-200"
+                        className="p-2 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-lg transition-colors flex items-center justify-center"
                         title="Open in new tab"
                     >
-                        <ExternalLink className="w-4 h-4" />
+                        <OpenInNew className="!text-base" />
                     </a>
 
-                    {/* Close Modal Button */}
                     <button
                         onClick={onClose}
-                        className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors duration-200"
+                        className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
                         title="Close viewer"
                     >
-                        <X className="w-5 h-5" />
+                        <Close className="!text-xl" />
                     </button>
                 </div>
             </div>
 
-            {/* 2. PDF Viewer Container */}
+            {/* Viewport Container */}
             <div
-                className="flex-1 w-full h-full p-2 sm:p-4 md:p-6 flex justify-center items-center overflow-hidden"
+                className="flex-1 min-h-0 w-full p-2 sm:p-4 flex justify-center items-center"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="w-full h-full max-w-5xl rounded-xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl relative">
+                <div className="w-full h-full max-w-5xl bg-slate-900 rounded-xl overflow-hidden border border-slate-800 shadow-2xl">
                     <iframe
-                        src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1`}
-                        className="w-full h-full border-none rounded-xl"
+                        src={pdfUrl}
+                        className="w-full h-full border-none"
                         title="CV Preview"
                     />
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
